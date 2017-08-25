@@ -55,14 +55,13 @@ class CacheHtml
     public function handle(Request $request, $next)
     {
         if ($request->method() === 'GET' && config('htmlcache.enabled')) {
-            $response = $next($request);
             $key = $this->getCacheKey($request->path());
 
-            return Cache::remember($key, config('htmlcache.minutes'), function () use ($response) {
-                return $response;
-            });
-        } else {
-            return $next($request);
+            return response(Cache::remember($key, config('htmlcache.minutes'), function () use ($next, $request) {
+                return ($next($request))->getContent();
+            }));
         }
+
+        return $next($request);
     }
 }

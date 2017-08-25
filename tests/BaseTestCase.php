@@ -6,7 +6,6 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\Route;
 use JKniest\HtmlCache\HtmlCacheServiceProvider;
 use JKniest\HtmlCache\Http\Middleware\CacheHtml;
-use Orchestra\Testbench\Exceptions\Handler;
 use Orchestra\Testbench\TestCase;
 
 class BaseTestCase extends TestCase
