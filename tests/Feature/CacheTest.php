@@ -27,7 +27,7 @@ class CacheTest extends BaseTestCase
         $this->assertNotNull(cache('test_example_en'));
 
         // Also: The content should be valid
-        $this->assertEquals('Example value: Hello', cache('test_example_en')->content());
+        $this->assertEquals('Example value: Hello', cache('test_example_en'));
     }
 
     /** @test */
@@ -133,5 +133,27 @@ class CacheTest extends BaseTestCase
         // Then: They should not see Hello, but World
         $responseB->assertDontSee('Hello');
         $responseB->assertSee('World');
+    }
+
+    /** @test */
+    public function it_can_ignore_specific_routes()
+    {
+        // Given: The route /another is ignored
+        Config::set('htmlcache.ignored', [
+            '/another'
+        ]);
+
+        // When: The user visits the page with an attribute: Hello
+        $response = $this->get('/another?test=hello');
+
+        // Then: He should see the Hello
+        $response->assertStatus(200)->assertSee('hello');
+
+        // When: The user visits the same page with another attribute: World
+        $response = $this->get('/another?test=world');
+
+        // Then: He should see the World but not hello
+        $response->assertStatus(200)->assertSee('world');
+        $response->assertDontSee('hello');
     }
 }

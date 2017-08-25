@@ -19,27 +19,6 @@ use Illuminate\Support\Facades\Cache;
 class CacheHtml
 {
     /**
-     * Generate the cache key for a given page. It will have the following syntax:
-     * PREFIX_PAGE_LOCALE
-     *
-     * The prefix is configurable in the config file. The page is the current page the user
-     * is visiting and the locale is the current locale (default: en)
-     *
-     * @param string $page The current page
-     *
-     * @return string
-     */
-    public function getCacheKey(string $page)
-    {
-        $prefix = config('htmlcache.prefix');
-        $locale = app()->getLocale();
-
-        $page = str_replace('/', '_', trim($page, '/'));
-
-        return "{$prefix}{$page}_{$locale}";
-    }
-
-    /**
      * Handle the incoming request. If the caching is disabled or the request is not a GET
      * request it will simply do nothing and only return the original response.
      *
@@ -54,14 +33,57 @@ class CacheHtml
      */
     public function handle(Request $request, $next)
     {
-        if ($request->method() === 'GET' && config('htmlcache.enabled')) {
-            $key = $this->getCacheKey($request->path());
+        $enabled = (
+            $request->method() === 'GET' &&
+            config('htmlcache.enabled') &&
+            !$request->is($this->getIgnored())
+        );
 
-            return response(Cache::remember($key, config('htmlcache.minutes'), function () use ($next, $request) {
+        if ($enabled) {
+            $key = $this->getCacheKey($request->path());
+            $time = config('htmlcache.minutes');
+
+            $content = Cache::remember($key, $time, function () use ($next, $request) {
                 return ($next($request))->getContent();
-            }));
+            });
+
+            return response($content);
         }
 
         return $next($request);
+    }
+
+    /**
+     * Generate the cache key for a given page. It will have the following syntax:
+     * PREFIX_PAGE_LOCALE
+     *
+     * The prefix is configurable in the config file. The page is the current page the user
+     * is visiting and the locale is the current locale (default: en)
+     *
+     * @param string $page The current page
+     *
+     * @return string
+     */
+    protected function getCacheKey(string $page)
+    {
+        $prefix = config('htmlcache.prefix');
+        $locale = app()->getLocale();
+
+        $page = str_replace('/', '_', trim($page, '/'));
+
+        return "{$prefix}{$page}_{$locale}";
+    }
+
+    /**
+     * Get all ignored routes that should not be affected by the caching. It will remove all
+     * trailing slashes.
+     *
+     * @return array
+     */
+    protected function getIgnored()
+    {
+        return array_map(function ($value) {
+            return trim($value, '/');
+        }, config('htmlcache.ignored'));
     }
 }

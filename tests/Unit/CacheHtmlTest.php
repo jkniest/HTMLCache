@@ -62,6 +62,37 @@ class CacheHtmlTest extends BaseTestCase
         // Then: The cache prefix should be:
         $this->assertEquals('test_example_de', $key);
     }
+
+    /** @test */
+    public function it_can_get_the_ignored_files()
+    {
+        // Given: A ignored route, named 'another'
+        Config::set('htmlcache.ignored', [
+            'another'
+        ]);
+
+        // When: We fetch the ignored routes
+        $ignored = (new MockedCacheHtml)->mGetIgnored();
+
+        // Then: It should be another
+        $this->assertEquals(['another'], $ignored);
+    }
+
+    /** @test */
+    public function it_removes_trailing_slashes_around_ignored_routes()
+    {
+        // Given: A ignored route, named '/another/'
+        Config::set('htmlcache.ignored', [
+            '/another/',
+            'and/some/other/'
+        ]);
+
+        // When: We fetch the ignored routes
+        $ignored = (new MockedCacheHtml)->mGetIgnored();
+
+        // Then: It should be another and and/some/other (without the slashes)
+        $this->assertEquals(['another', 'and/some/other'], $ignored);
+    }
 }
 
 class MockedCacheHtml extends CacheHtml
@@ -69,5 +100,10 @@ class MockedCacheHtml extends CacheHtml
     public function mGetCacheKey(string $page)
     {
         return $this->getCacheKey($page);
+    }
+
+    public function mGetIgnored()
+    {
+        return $this->getIgnored();
     }
 }

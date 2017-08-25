@@ -50,5 +50,15 @@ return [
      * You can override the value by providing a "HTML_CACHE_USER_SPECIFIC" key inside your
      * .env file.
      */
-    'user_specific' => env('HTML_CACHE_USER_SPECIFIC', false)
+    'user_specific' => env('HTML_CACHE_USER_SPECIFIC', false),
+
+    /**
+     * HTML cache ignored routes
+     *
+     * These routes will be completely ignored by the caching. The only way to override these
+     * values is to publish the configuration file.
+     */
+    'ignored' => [
+        # /path/to/my/ignored/route
+    ]
 ];
