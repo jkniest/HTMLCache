@@ -4,6 +4,7 @@ namespace JKniest\HtmlCache\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -33,13 +34,7 @@ class CacheHtml
      */
     public function handle(Request $request, $next)
     {
-        $enabled = (
-            $request->method() === 'GET' &&
-            config('htmlcache.enabled') &&
-            !$request->is($this->getIgnored())
-        );
-
-        if ($enabled) {
+        if ($this->isEnabled($request)) {
             $key = $this->getCacheKey($request->path());
             $time = config('htmlcache.minutes');
 
@@ -55,10 +50,13 @@ class CacheHtml
 
     /**
      * Generate the cache key for a given page. It will have the following syntax:
-     * PREFIX_PAGE_LOCALE
+     * PREFIX_PAGE_LOCALE_USERID
      *
      * The prefix is configurable in the config file. The page is the current page the user
-     * is visiting and the locale is the current locale (default: en)
+     * is visiting and the locale is the current locale (default: en).
+     *
+     * The user id is only set if the configuration value (htmlcache.user_specific) is set
+     * to true.
      *
      * @param string $page The current page
      *
@@ -70,6 +68,11 @@ class CacheHtml
         $locale = app()->getLocale();
 
         $page = str_replace('/', '_', trim($page, '/'));
+
+        if (config('htmlcache.user_specific')) {
+            $id = Auth::check() ? Auth::id() : -1;
+            return "{$prefix}{$page}_{$locale}_{$id}";
+        }
 
         return "{$prefix}{$page}_{$locale}";
     }
@@ -83,7 +86,31 @@ class CacheHtml
     protected function getIgnored()
     {
         return array_map(function ($value) {
+            if ($value === '/') {
+                return $value;
+            }
             return trim($value, '/');
         }, config('htmlcache.ignored'));
+    }
+
+    /**
+     * Is the caching system enabled for this specific page?
+     *
+     * It is enabled when:
+     * - The http method is GET
+     * - The caching is enabled in config
+     * - And the route is not ignored
+     *
+     * @param Request $request The incoming request
+     *
+     * @return bool
+     */
+    protected function isEnabled(Request $request)
+    {
+        return (
+            $request->method() === 'GET' &&
+            config('htmlcache.enabled') &&
+            !$request->is(... $this->getIgnored())
+        );
     }
 }
