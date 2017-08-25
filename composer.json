@@ -1,0 +1,30 @@
+{
+    "name": "jkniest/htmlcache",
+    "description": "A simple HTML Cache middleware for laravel",
+    "type": "library",
+    "require": {
+        "laravel/framework": "^5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.3",
+        "orchestra/testbench": "^3.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jordan Kniest",
+            "email": "mail@jkniest.de"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "JKniest\\HttpCache\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JKniest\\Tests\\": "tests/"
+        }
+    }
+}
