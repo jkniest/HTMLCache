@@ -2,19 +2,25 @@
 
 namespace JKniest\Tests;
 
-use Illuminate\Routing\Router;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Support\Facades\Route;
 use JKniest\HtmlCache\HtmlCacheServiceProvider;
+use JKniest\HtmlCache\Http\Middleware\CacheHtml;
+use Orchestra\Testbench\Exceptions\Handler;
 use Orchestra\Testbench\TestCase;
 
 class BaseTestCase extends TestCase
 {
+    private $oldExceptionHandler;
+
     protected function setUp()
     {
         parent::setUp();
 
-        $router = app(Router::class);
-        $router->get('/example', function () {
-            return 'Example value: ' . request('test');
+        Route::group(['middleware' => CacheHtml::class], function () {
+            Route::any('/example', function () {
+                return 'Example value: ' . request('test');
+            });
         });
     }
 
