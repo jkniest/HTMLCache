@@ -4,7 +4,7 @@
 	<a href="https://travis-ci.org/jkniest/HTMLCache">
 		<img src="https://travis-ci.org/jkniest/HTMLCache.svg?branch=develop">
 	</a><img src="https://img.shields.io/badge/Version-1.0.0-blue.svg">
-	<a href="https://packagist.org/packages/jkniest/htmlcache"><img src="https://img.shields.io/packagist/dt/jkniest/htmlcache.svg"></a>
+	<a href="https://packagist.org/packages/jkniest/htmlcache"><img src="https://poser.pugx.org/jkniest/htmlcache/downloads"></a>
 </p>
 
 ---
