@@ -1,10 +1,10 @@
 # Laravel HTML Cache
 
 <p>
-	<a href="https://travis-ci.com/jkniest/HTMLCache">
-		<img src="https://travis-ci.com/jkniest/HTMLCache.svg?token=V2HFFCLc6NVnxsqjqD9v&branch=develop">
+	<a href="https://travis-ci.org/jkniest/HTMLCache">
+		<img src="https://travis-ci.org/jkniest/HTMLCache.svg?branch=develop">
 	</a><img src="https://img.shields.io/badge/Version-1.0.0-blue.svg">
-	<a href="https://packagist.org/packages/jkniest/force-https"><img src="https://img.shields.io/packagist/dt/jkniest/force-https.svg"></a>
+	<a href="https://packagist.org/packages/jkniest/htmlcache"><img src="https://img.shields.io/packagist/dt/jkniest/htmlcache.svg"></a>
 </p>
 
 ---
