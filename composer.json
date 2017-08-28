@@ -19,7 +19,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "JKniest\\HttpCache\\": "src/"
+            "JKniest\\HtmlCache\\": "src/"
         }
     },
     "autoload-dev": {
