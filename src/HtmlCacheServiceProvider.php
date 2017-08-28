@@ -24,7 +24,7 @@ class HtmlCacheServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/config/htmlcache.php' => config_path('htmlcache.php')
-        ]);
+        ], 'htmlcache');
 
         $this->mergeConfigFrom(__DIR__ . '/config/htmlcache.php', 'htmlcache');
     }
