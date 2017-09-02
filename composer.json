@@ -3,7 +3,7 @@
     "description": "A simple HTML Cache middleware for laravel",
     "type": "library",
     "require": {
-        "laravel/framework": "^5.4"
+        "laravel/framework": "^5.4|^5.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.3",
@@ -25,6 +25,13 @@
     "autoload-dev": {
         "psr-4": {
             "JKniest\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JKniest\\HtmlCache\\HtmlCacheServiceProvider"
+            ]
         }
     }
 }
