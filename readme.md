@@ -1,10 +1,10 @@
 # Laravel HTML Cache
 
 <p>
-	<a href="https://travis-ci.org/jkniest/HTMLCache">
-		<img src="https://travis-ci.org/jkniest/HTMLCache.svg?branch=develop">
-	</a><img src="https://img.shields.io/badge/Version-1.0.0-blue.svg">
-	<a href="https://packagist.org/packages/jkniest/htmlcache"><img src="https://poser.pugx.org/jkniest/htmlcache/downloads"></a>
+    <a href="https://travis-ci.org/jkniest/HTMLCache">
+        <img src="https://travis-ci.org/jkniest/HTMLCache.svg?branch=develop">
+    </a><img src="https://img.shields.io/badge/Version-1.0.0-blue.svg">
+    <a href="https://packagist.org/packages/jkniest/htmlcache"><img src="https://poser.pugx.org/jkniest/htmlcache/downloads"></a>
 </p>
 
 ---
@@ -44,12 +44,16 @@ The installation process is very straight-forward. It's like any other laravel p
 composer require jkniest/htmlcache
 ```
 
+> If you are using __laravel 5.5 or higher__, that's it. The package is now fully installed. Now see [Using](#using)
+
+### Laravel < 5.5:
+
 2) Add the package service provider in your packages configuration. Open up the `config/app.php` file and the following into your `providers` array:
 ```php
 'providers' => [
-	// ...
-	JKniest\HtmlCache\HtmlCacheServiceProvider::class,
-	// ...
+    // ...
+    JKniest\HtmlCache\HtmlCacheServiceProvider::class,
+    // ...
 ]
 ```
 
