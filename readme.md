@@ -27,6 +27,8 @@ __One benefit against much other html caches:__ It will also cache the pages bas
 4. [Ignoring routes](#ignoring-routes)
 5. [Clear cache](#clear-cache)
 6. [Override middlware](#override-middlware)
+7. [Roadmap](#roadmap)   
+8. [License](#license)
 
 ---
 
@@ -250,6 +252,15 @@ In `app/Http/Kernel.php`:
 ```
 
 Of course you can always override any other method (like the `Handle` method itself).
+
+---
+
+## Roadmap
+
+These are features that are planned for to upcoming versions. If you have any suggestion please let me know via issues or e-mail me at `contact@jkniest.de`
+
+### Version 1.1.0
+- Add native pagination support (so that the page GET parameter will also be cached)
 
 ---
 
