@@ -21,6 +21,9 @@ class BaseTestCase extends TestCase
             Route::get('/another', function () {
                 return 'Another value: ' . request('test');
             });
+            Route::get('/error', function () {
+                return response('Error: ' . request('test'), 500);
+            });
         });
     }
 

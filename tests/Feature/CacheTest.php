@@ -156,4 +156,24 @@ class CacheTest extends BaseTestCase
         $response->assertStatus(200)->assertSee('world');
         $response->assertDontSee('hello');
     }
+
+    /** @test */
+    public function it_will_ignore_routes_that_are_not_returning_a_200_status_code()
+    {
+        // When: The user sends a GET request to a page which returns a 500 status code
+        $response = $this->get('/error?test=Hello');
+
+        // Then: They should see the word 'Hello'
+        $response->assertSee('Hello');
+
+        // When: The user makes another request to the same url with another parameter
+        $responseB = $this->get('/error?test=World');
+
+        // Then: They should not see Hello, but World
+        $responseB->assertDontSee('Hello');
+        $responseB->assertSee('World');
+
+        // Also: The cache key should not have been generated (or at least with the null content)
+        $this->assertNull(cache('test_error_en'));
+    }
 }
