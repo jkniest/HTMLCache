@@ -1,11 +1,6 @@
 # Laravel HTML Cache
 
-<p>
-    <a href="https://travis-ci.org/jkniest/HTMLCache">
-        <img src="https://travis-ci.org/jkniest/HTMLCache.svg?branch=develop">
-    </a><img src="https://img.shields.io/badge/Version-1.0.0-blue.svg">
-    <a href="https://packagist.org/packages/jkniest/htmlcache"><img src="https://poser.pugx.org/jkniest/htmlcache/downloads"></a>
-</p>
+[ ![Build](https://travis-ci.com/jkniest/HTMLCache.svg?token=V2HFFCLc6NVnxsqjqD9v&branch=develop) ](https://travis-ci.com/jkniest/HTMLCache) [![Latest Stable Version](https://poser.pugx.org/jkniest/htmlcache/v/stable)](https://packagist.org/packages/jkniest/htmlcache) [![Total Downloads](https://poser.pugx.org/jkniest/htmlcache/downloads)](https://packagist.org/packages/jkniest/htmlcache) [![License](https://poser.pugx.org/jkniest/htmlcache/license)](https://packagist.org/packages/jkniest/htmlcache) 
 
 ---
 
@@ -24,14 +19,17 @@ __One benefit against much other html caches:__ It will also cache the pages bas
 2. [Using](#using)   
 2.1. [For all web routes](#for-all-web-routes)   
 2.2. [Only for specific routes](#only-for-specific-routes)
-3. [Configuration](#configuration)   
-3.1. [Enable / Disable cache](#enable--disable-cache)   
-3.2. [Caching prefix](#caching-prefix)   
-3.3. [Caching time](#caching-time)   
-3.4. [User specific caching](#user-specific)
-4. [Ignoring routes](#ignoring-routes)
-5. [Clear cache](#clear-cache)
-6. [Override middlware](#override-middlware)
+3. [When will pages not be cached?](#when-will-pages-not-be-cached)
+4. [Configuration](#configuration)   
+4.1. [Enable / Disable cache](#enable--disable-cache)   
+4.2. [Caching prefix](#caching-prefix)   
+4.3. [Caching time](#caching-time)   
+4.4. [User specific caching](#user-specific)
+5. [Ignoring routes](#ignoring-routes)
+6. [Clear cache](#clear-cache)
+7. [Override middlware](#override-middlware)
+8. [Roadmap](#roadmap)   
+9. [License](#license)
 
 ---
 
@@ -44,16 +42,12 @@ The installation process is very straight-forward. It's like any other laravel p
 composer require jkniest/htmlcache
 ```
 
-> If you are using __laravel 5.5 or higher__, that's it. The package is now fully installed. Now see [Using](#using)
-
-### Laravel < 5.5:
-
 2) Add the package service provider in your packages configuration. Open up the `config/app.php` file and the following into your `providers` array:
 ```php
 'providers' => [
-    // ...
-    JKniest\HtmlCache\HtmlCacheServiceProvider::class,
-    // ...
+	// ...
+	JKniest\HtmlCache\HtmlCacheServiceProvider::class,
+	// ...
 ]
 ```
 
@@ -115,6 +109,19 @@ public function __construct()
     $this->middleware('htmlcache');
 }
 ```
+
+---
+
+## When will pages not be cached?
+
+In a few cases the pages will not be cached:
+
+1. If the HTTP method is not `GET`
+2. If the HTMLCache is disabled in the configuration
+3. If the path of the current page is ignored in the configuration
+4. If there are validation errors
+5. If the status code is not 200
+
 
 ---
 
@@ -259,6 +266,15 @@ In `app/Http/Kernel.php`:
 ```
 
 Of course you can always override any other method (like the `Handle` method itself).
+
+---
+
+## Roadmap
+
+These are features that are planned for to upcoming versions. If you have any suggestion please let me know via issues or e-mail me at `contact@jkniest.de`
+
+### Version 1.1.0
+- Add native pagination support (so that the page GET parameter will also be cached)
 
 ---
 

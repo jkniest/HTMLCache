@@ -35,12 +35,11 @@ class CacheHtml
     public function handle(Request $request, $next)
     {
         if ($this->isEnabled($request)) {
-            $key = $this->getCacheKey($request->path());
-            $time = config('htmlcache.minutes');
+            $content = $this->getContent($request, $next);
 
-            $content = Cache::remember($key, $time, function () use ($next, $request) {
-                return ($next($request))->getContent();
-            });
+            if ($content === null) {
+                return $next($request);
+            }
 
             return response($content);
         }
@@ -71,6 +70,7 @@ class CacheHtml
 
         if (config('htmlcache.user_specific')) {
             $id = Auth::check() ? Auth::id() : -1;
+
             return "{$prefix}{$page}_{$locale}_{$id}";
         }
 
@@ -89,6 +89,7 @@ class CacheHtml
             if ($value === '/') {
                 return $value;
             }
+
             return trim($value, '/');
         }, config('htmlcache.ignored'));
     }
@@ -112,5 +113,36 @@ class CacheHtml
             config('htmlcache.enabled') &&
             !$request->is(... $this->getIgnored())
         );
+    }
+
+    /**
+     * Get the original or the cached response. If there is now cached version for the
+     * current page it will run the full request cycle and cache the given response, if
+     * the returned status code is equals to 200.
+     *
+     * Otherwise, if there is a cache version, it will not run the whole request cycle
+     * and simply return the cached html / response.
+     *
+     * @param Request  $request The incoming request
+     * @param callable $next    The next middleware
+     *
+     * @return null|string
+     */
+    protected function getContent(Request $request, callable $next)
+    {
+        $key = $this->getCacheKey($request->path());
+        $time = config('htmlcache.minutes');
+
+        $content = Cache::remember($key, $time, function () use ($next, $request) {
+            $response = $next($request);
+
+            if ($response->getStatusCode() !== 200) {
+                return null;
+            }
+
+            return $response->getContent();
+        });
+
+        return $content;
     }
 }
