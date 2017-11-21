@@ -24,6 +24,11 @@ class BaseTestCase extends TestCase
             Route::get('/error', function () {
                 return response('Error: ' . request('test'), 500);
             });
+            Route::get('/validation', function () {
+                request()->validate([
+                    'name' => 'required'
+                ]);
+            });
         });
     }
 

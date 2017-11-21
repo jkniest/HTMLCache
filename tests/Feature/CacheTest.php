@@ -176,4 +176,52 @@ class CacheTest extends BaseTestCase
         // Also: The cache key should not have been generated (or at least with the null content)
         $this->assertNull(cache('test_error_en'));
     }
+
+    /** @test */
+    public function it_will_not_cache_any_pages_if_the_error_bag_is_not_empty()
+    {
+        // Given: The user was earlier on the example page
+        session()->setPreviousUrl(url('/example'));
+
+        // When: The user sends a GET request to a page which will throw an validation exception
+        $response = $this->get('/validation');
+
+        // Then: The session should have an validation error
+        $response->assertSessionHasErrors(['name']);
+
+        // And: The user should be redirected to the example page again
+        $response->assertRedirect('/example');
+
+        // And: The cache key should not have been generated (or at least with the null content)
+        $this->assertNull(cache('test_example_en'));
+    }
+
+    /** @test */
+    public function it_will_not_load_the_cache_of_a_page_if_the_error_bag_is_not_empty()
+    {
+        // Given: The user visited the example before
+        $response = $this->get('/example?test=Hello');
+
+        // And: This page was being cached
+        $this->assertNotNull(cache('test_example_en'));
+
+        // Also: The user should see Hello
+        $response->assertSee('Hello');
+
+        // Given: The user was earlier on the example page
+        session()->setPreviousUrl(url('/example'));
+
+        // When: The user sends a GET request to a page which will throw an validation exception
+        $response = $this->get('/validation');
+
+        // Then: The session should have an validation error
+        $response->assertSessionHasErrors(['name']);
+
+        // And: The user should be redirected to the example page again
+        $response->assertRedirect('/example');
+
+        // And: The user should not see the Hello
+        $response->assertDontSee('Hello');
+    }
+
 }
