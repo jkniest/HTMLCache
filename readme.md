@@ -19,16 +19,17 @@ __One benefit against much other html caches:__ It will also cache the pages bas
 2. [Using](#using)   
 2.1. [For all web routes](#for-all-web-routes)   
 2.2. [Only for specific routes](#only-for-specific-routes)
-3. [Configuration](#configuration)   
-3.1. [Enable / Disable cache](#enable--disable-cache)   
-3.2. [Caching prefix](#caching-prefix)   
-3.3. [Caching time](#caching-time)   
-3.4. [User specific caching](#user-specific)
-4. [Ignoring routes](#ignoring-routes)
-5. [Clear cache](#clear-cache)
-6. [Override middlware](#override-middlware)
-7. [Roadmap](#roadmap)   
-8. [License](#license)
+3. [When will pages not be cached?](#when-will-pages-not-be-cached)
+4. [Configuration](#configuration)   
+4.1. [Enable / Disable cache](#enable--disable-cache)   
+4.2. [Caching prefix](#caching-prefix)   
+4.3. [Caching time](#caching-time)   
+4.4. [User specific caching](#user-specific)
+5. [Ignoring routes](#ignoring-routes)
+6. [Clear cache](#clear-cache)
+7. [Override middlware](#override-middlware)
+8. [Roadmap](#roadmap)   
+9. [License](#license)
 
 ---
 
@@ -108,6 +109,19 @@ public function __construct()
     $this->middleware('htmlcache');
 }
 ```
+
+---
+
+## When will pages not be cached?
+
+In a few cases the pages will not be cached:
+
+1. If the HTTP method is not `GET`
+2. If the HTMLCache is disabled in the configuration
+3. If the path of the current page is ignored in the configuration
+4. If there are validation errors
+5. If the status code is not 200
+
 
 ---
 
