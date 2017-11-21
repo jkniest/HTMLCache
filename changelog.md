@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 ### Changed
-- Sites are not going to be cached if they do not have a 200 status code
+- Sites are not being cached if they do not have a 200 status code
+- Sites are not being cached if there is a validation error
 
 ## [1.0.1] - 2017-09-03
 ### Added
