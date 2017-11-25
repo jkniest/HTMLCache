@@ -42,6 +42,10 @@ The installation process is very straight-forward. It's like any other laravel p
 composer require jkniest/htmlcache
 ```
 
+__If you are using laravel 5.5 or higher the installation is already finished. You now have multiple ways to use the middleware (see [Using](#using)).__
+
+Otherwise, if you use laravel 5.4 or lower go to step 2:
+
 2) Add the package service provider in your packages configuration. Open up the `config/app.php` file and the following into your `providers` array:
 ```php
 'providers' => [
