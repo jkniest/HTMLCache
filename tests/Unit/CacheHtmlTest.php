@@ -2,9 +2,9 @@
 
 namespace JKniest\Tests\Unit;
 
-use JKniest\HtmlCache\Http\Middleware\CacheHtml;
-use Illuminate\Support\Facades\Config;
 use JKniest\Tests\BaseTestCase;
+use Illuminate\Support\Facades\Config;
+use JKniest\HtmlCache\Http\Middleware\CacheHtml;
 
 class CacheHtmlTest extends BaseTestCase
 {
@@ -68,7 +68,7 @@ class CacheHtmlTest extends BaseTestCase
     {
         // Given: A ignored route, named 'another'
         Config::set('htmlcache.ignored', [
-            'another'
+            'another',
         ]);
 
         // When: We fetch the ignored routes
@@ -84,7 +84,7 @@ class CacheHtmlTest extends BaseTestCase
         // Given: A ignored route, named '/another/'
         Config::set('htmlcache.ignored', [
             '/another/',
-            'and/some/other/'
+            'and/some/other/',
         ]);
 
         // When: We fetch the ignored routes

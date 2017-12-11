@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Cache;
  * visit the page. The effects are that no database queries needs to be executed.
  *
  * @category Core
- * @package  JKniest\HTMLCache
  * @author   Jordan Kniest <mail@jkniest.de>
  * @license  MIT <https://opensource.org/licenses/MIT>
  * @link     https://jkniest.de
@@ -49,7 +48,7 @@ class CacheHtml
 
     /**
      * Generate the cache key for a given page. It will have the following syntax:
-     * PREFIX_PAGE_LOCALE_USERID
+     * PREFIX_PAGE_LOCALE_USERID.
      *
      * The prefix is configurable in the config file. The page is the current page the user
      * is visiting and the locale is the current locale (default: en).
@@ -108,11 +107,10 @@ class CacheHtml
      */
     protected function isEnabled(Request $request)
     {
-        return (
+        return
             $request->method() === 'GET' &&
             config('htmlcache.enabled') &&
-            !$request->is(... $this->getIgnored())
-        );
+            ! $request->is(...$this->getIgnored());
     }
 
     /**
@@ -137,7 +135,7 @@ class CacheHtml
             $response = $next($request);
 
             if ($response->getStatusCode() !== 200) {
-                return null;
+                return;
             }
 
             return $response->getContent();
