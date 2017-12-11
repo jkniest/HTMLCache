@@ -2,8 +2,8 @@
 
 namespace JKniest\Tests\Feature;
 
-use Illuminate\Support\Facades\Config;
 use JKniest\Tests\BaseTestCase;
+use Illuminate\Support\Facades\Config;
 
 class CacheTest extends BaseTestCase
 {
@@ -140,7 +140,7 @@ class CacheTest extends BaseTestCase
     {
         // Given: The route /another is ignored
         Config::set('htmlcache.ignored', [
-            '/another'
+            '/another',
         ]);
 
         // When: The user visits the page with an attribute: Hello
@@ -223,5 +223,4 @@ class CacheTest extends BaseTestCase
         // And: The user should not see the Hello
         $response->assertDontSee('Hello');
     }
-
 }
