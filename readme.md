@@ -1,6 +1,6 @@
 # Laravel HTML Cache
 
-[ ![Build](https://travis-ci.com/jkniest/HTMLCache.svg?token=V2HFFCLc6NVnxsqjqD9v&branch=develop) ](https://travis-ci.com/jkniest/HTMLCache) [![Latest Stable Version](https://poser.pugx.org/jkniest/htmlcache/v/stable)](https://packagist.org/packages/jkniest/htmlcache) [![Total Downloads](https://poser.pugx.org/jkniest/htmlcache/downloads)](https://packagist.org/packages/jkniest/htmlcache) [![License](https://poser.pugx.org/jkniest/htmlcache/license)](https://packagist.org/packages/jkniest/htmlcache) 
+[ ![Build](https://travis-ci.com/jkniest/HTMLCache.svg?token=V2HFFCLc6NVnxsqjqD9v&branch=develop) ](https://travis-ci.com/jkniest/HTMLCache) [![Latest Stable Version](https://poser.pugx.org/jkniest/htmlcache/v/stable)](https://packagist.org/packages/jkniest/htmlcache) [![Total Downloads](https://poser.pugx.org/jkniest/htmlcache/downloads)](https://packagist.org/packages/jkniest/htmlcache) [![License](https://poser.pugx.org/jkniest/htmlcache/license)](https://packagist.org/packages/jkniest/htmlcache)  [ ![StyleCI](https://styleci.io/repos/100369160/shield?branch=develop&style=flat) ](https://styleci.io/repos/100369160) 
 
 ---
 
