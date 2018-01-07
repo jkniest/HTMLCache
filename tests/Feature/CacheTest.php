@@ -2,8 +2,8 @@
 
 namespace JKniest\Tests\Feature;
 
-use Illuminate\Support\Facades\Config;
 use JKniest\Tests\BaseTestCase;
+use Illuminate\Support\Facades\Config;
 
 class CacheTest extends BaseTestCase
 {
