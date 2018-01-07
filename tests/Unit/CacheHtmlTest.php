@@ -18,7 +18,7 @@ class CacheHtmlTest extends BaseTestCase
         $key = (new MockedCacheHtml)->mGetCacheKey('example');
 
         // Then: The cache prefix should be:
-        $this->assertEquals('test_example_en', $key);
+        $this->assertEquals('test_'.md5('example').'_en', $key);
     }
 
     /** @test */
@@ -31,7 +31,7 @@ class CacheHtmlTest extends BaseTestCase
         $key = (new MockedCacheHtml)->mGetCacheKey('example/123/another');
 
         // Then: The cache prefix should be:
-        $this->assertEquals('test_example_123_another_en', $key);
+        $this->assertEquals('test_'.md5('example/123/another').'_en', $key);
     }
 
     /** @test */
@@ -44,7 +44,7 @@ class CacheHtmlTest extends BaseTestCase
         $key = (new MockedCacheHtml)->mGetCacheKey('/example/');
 
         // Then: The cache prefix should be:
-        $this->assertEquals('test_example_en', $key);
+        $this->assertEquals('test_'.md5('example').'_en', $key);
     }
 
     /** @test */
@@ -60,7 +60,7 @@ class CacheHtmlTest extends BaseTestCase
         $key = (new MockedCacheHtml)->mGetCacheKey('example');
 
         // Then: The cache prefix should be:
-        $this->assertEquals('test_example_de', $key);
+        $this->assertEquals('test_'.md5('example').'_de', $key);
     }
 
     /** @test */

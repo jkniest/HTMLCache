@@ -14,14 +14,17 @@ class BaseTestCase extends TestCase
         parent::setUp();
 
         Route::group(['middleware' => CacheHtml::class], function () {
-            Route::any('/example', function () {
+            Route::get('/example', function () {
+                return 'Example value: '.session('test');
+            });
+            Route::any('/form', function () {
                 return 'Example value: '.request('test');
             });
             Route::get('/another', function () {
-                return 'Another value: '.request('test');
+                return 'Another value: '.session('test');
             });
             Route::get('/error', function () {
-                return response('Error: '.request('test'), 500);
+                return response('Error: '.session('test'), 500);
             });
             Route::get('/validation', function () {
                 request()->validate([
