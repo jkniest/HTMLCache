@@ -1,6 +1,6 @@
 # Laravel HTML Cache
 
-[ ![Build](https://travis-ci.com/jkniest/HTMLCache.svg?token=V2HFFCLc6NVnxsqjqD9v&branch=develop) ](https://travis-ci.com/jkniest/HTMLCache) [![Latest Stable Version](https://poser.pugx.org/jkniest/htmlcache/v/stable)](https://packagist.org/packages/jkniest/htmlcache) [![Total Downloads](https://poser.pugx.org/jkniest/htmlcache/downloads)](https://packagist.org/packages/jkniest/htmlcache) [![License](https://poser.pugx.org/jkniest/htmlcache/license)](https://packagist.org/packages/jkniest/htmlcache) 
+[ ![Build](https://travis-ci.com/jkniest/HTMLCache.svg?token=V2HFFCLc6NVnxsqjqD9v&branch=develop) ](https://travis-ci.com/jkniest/HTMLCache) [![Latest Stable Version](https://poser.pugx.org/jkniest/htmlcache/v/stable)](https://packagist.org/packages/jkniest/htmlcache) [![Total Downloads](https://poser.pugx.org/jkniest/htmlcache/downloads)](https://packagist.org/packages/jkniest/htmlcache) [![License](https://poser.pugx.org/jkniest/htmlcache/license)](https://packagist.org/packages/jkniest/htmlcache)  [ ![StyleCI](https://styleci.io/repos/100369160/shield?branch=develop&style=flat) ](https://styleci.io/repos/100369160) 
 
 ---
 
@@ -10,7 +10,7 @@ This package is made for you if you have a lot of static pages (or pages that do
 
 And it is highly customizable: You can even cache the same page for every user different, allowing that you can cache for example their account page or dashboard without worrying that another user can see these cached pages.
 
-__One benefit against much other html caches:__ It will also cache the pages based on language, and (optionally) user id. And if there are special cases (for example a special GET-parameter) that needs to be used to generate multiple versions of the same page, the middleware can be easily modified.
+__One benefit against much other html caches:__ It will also cache the pages based on language, and (optionally) user id. And if there are special cases (for example a specific session value) that needs to be used to generate multiple versions of the same page, the middleware can be easily modified.
 
 ---
 
@@ -41,6 +41,10 @@ The installation process is very straight-forward. It's like any other laravel p
 ```shell
 composer require jkniest/htmlcache
 ```
+
+__If you are using laravel 5.5 or higher the installation is already finished. You now have multiple ways to use the middleware (see [Using](#using)).__
+
+Otherwise, if you use laravel 5.4 or lower go to step 2:
 
 2) Add the package service provider in your packages configuration. Open up the `config/app.php` file and the following into your `providers` array:
 ```php
@@ -127,7 +131,7 @@ In a few cases the pages will not be cached:
 
 ## Configuration
 
-You can nearly configure anything inside the `.env` file.
+You can configure nearly anything inside the `.env` file.
 
 ### Enable / Disable cache
 
@@ -187,21 +191,21 @@ This will create a new file in your project: `config/htmlcache.php`. There you c
 
 ## Clear cache
 
-The html cache package uses the default laravel cache helpers. So you simple run the artisan command to clear the cache:
+The html cache package uses the default laravel cache helpers. So you can run the artisan command to clear the cache:
 
 ```shell
 php artisan cache:clear
 ```
 
-This will remove every cached version of this plugin (and also of everything else). It is recommended to put this in your deployment workflow (for example in the deployment script in forge or as an deployment hook in envoyer)
+This will remove every cached version of this plugin (and also everything else). It is recommended to put this in your deployment workflow (for example in the deployment script in forge or as a deployment hook in envoyer)
 
 ---
 
 ## Override middlware
 
-It is possible to override the middleware. So you could override the cache-key generation. In this short tutorial we will add another field to the cache key generation (the post id).
+It is possible to override the middleware. So you could override the cache-key generation. In this short tutorial we will add another field to the cache key generation (the current weekday).
 
-Let's say you have a forum and you can access each page with a get parameter. For example: `http://my-forum.dev?page=3`. In the default implementation all pages would share the same cached results (which means that the pagination isn't working anymore).
+Let's say you have a dashboard and all data on this dashboard will only update every weekday. In the default implementation you would have to set a maximum cache time (for example 1 day) but you can't be sure that the cache was generated exactly on 0am.
 
 The simplest solution would be to override the middleware and extends the cache-key generation.
 
@@ -228,10 +232,11 @@ Now we can override any methods. The method `getCacheKey` handles the generation
         $prefix = config('htmlcache.prefix');
         $locale = app()->getLocale();
 
-        $page = str_replace('/', '_', trim($page, '/'));
+        $page = md5(trim($page, '/'));
 
         if (config('htmlcache.user_specific')) {
             $id = Auth::check() ? Auth::id() : -1;
+
             return "{$prefix}{$page}_{$locale}_{$id}";
         }
 
@@ -246,9 +251,7 @@ Let's implement our own (in the HtmlCache middleware that we just created):
     {
         $key = parent::getCacheKey($page);
 
-        if (request('page') !== null) {
-            $key .= '_' . request('page');
-        }
+        $key .= date('D');
 
         return $key;
     }
@@ -269,18 +272,9 @@ Of course you can always override any other method (like the `Handle` method its
 
 ---
 
-## Roadmap
-
-These are features that are planned for to upcoming versions. If you have any suggestion please let me know via issues or e-mail me at `contact@jkniest.de`
-
-### Version 1.1.0
-- Add native pagination support (so that the page GET parameter will also be cached)
-
----
-
 ## License
 
-Copyright 2017 Jordan Kniest
+Copyright Jordan Kniest
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
