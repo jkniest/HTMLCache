@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.4] - 2018-01-30
 ### Added
-- Support for laravel 5.6 (#13)
+- Support for laravel 5.6 ([#13](https://github.com/jkniest/HTMLCache/pull/13))
 
 ## [1.0.3] - 2018-01-07
 ### Changed
