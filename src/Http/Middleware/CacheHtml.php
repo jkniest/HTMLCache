@@ -40,7 +40,9 @@ class CacheHtml
                 return $next($request);
             }
 
-            return response($content);
+            return tap(response($content['content'], 200), function ($response) use ($content) {
+                $response->headers = $content['headers'];
+            });
         }
 
         return $next($request);
@@ -139,7 +141,10 @@ class CacheHtml
                 return;
             }
 
-            return $response->getContent();
+            return [
+                'content' => $response->getContent(),
+                'headers' => $response->headers,
+            ];
         });
 
         return $content;

@@ -13,7 +13,9 @@ class BaseTestCase extends TestCase
     {
         parent::setUp();
 
-        Route::group(['middleware' => CacheHtml::class], function () {
+        $called = 1;
+
+        Route::group(['middleware' => CacheHtml::class], function () use ($called) {
             Route::get('/example', function () {
                 return 'Example value: '.session('test');
             });
@@ -30,6 +32,9 @@ class BaseTestCase extends TestCase
                 request()->validate([
                     'name' => 'required',
                 ]);
+            });
+            Route::get('/header', function () use ($called) {
+                return response('Header content', 200, ['header' => ++$called]);
             });
         });
     }

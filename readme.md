@@ -4,7 +4,7 @@
 
 ---
 
-This package __speeds up__ your laravel application by caching the final rendered __html__. So your database queries and view loading algorithms don't need to run every single page load.
+This package __speeds up__ your laravel application by caching the final rendered __html__ and __header fields__. So your database queries and view loading algorithms don't need to run every single page load.
 
 This package is made for you if you have a lot of static pages (or pages that don't change very often). That means, __portfolios__, __blogs__, __landing pages__ and more.
 
