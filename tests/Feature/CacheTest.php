@@ -35,7 +35,7 @@ class CacheTest extends BaseTestCase
         $this->assertNotNull(cache($key));
 
         // Also: The content should be valid
-        $this->assertEquals('Example value: Hello', cache($key));
+        $this->assertEquals('Example value: Hello', cache($key)['content']);
     }
 
     /** @test */
@@ -264,5 +264,23 @@ class CacheTest extends BaseTestCase
 
         // And: The user should not see the Hello, but world
         $response->assertDontSee('Hello');
+    }
+
+    /** @test */
+    public function it_passes_the_headers_to_the_cached_response()
+    {
+        // When: The user visits the uncached example page
+        $path = 'header';
+        $response = $this->get($path);
+
+        // Then: The page should have the header field
+        $response->assertHeader('header', '2');
+
+        // When: The user visits the cached example page again
+        $path = 'header';
+        $response = $this->get($path);
+
+        // Then: The page should have the header field (but with the old value)
+        $response->assertHeader('header', '2');
     }
 }
